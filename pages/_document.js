@@ -12,7 +12,7 @@ class MyDocument extends Document {
       <Html lang={BLOG.lang}>
         <Head>
           <link rel='icon' href='/favicon.ico' />
-          <link rel='icon' href='/favicon.svg' type='image/svg+xml' />
+          <link rel='icon' href='/avatar.webp' type='image/webp' />
           <link
             rel='apple-touch-icon'
             sizes='192x192'

@@ -1,12 +1,12 @@
 // https://react-svgr.com/playground/
 import * as React from 'react'
 import Image from 'next/image'
-import svg from '@/public/favicon.svg'
+import avatar from '@/public/avatar.webp'
 
 const Logo = (props) => (
   <Image
     {...props}
-    src={svg}
+    src={avatar}
     style={{
       height: '3rem',
       width: '3rem',

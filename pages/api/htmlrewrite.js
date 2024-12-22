@@ -86,14 +86,14 @@ module.exports = async (req, res) => {
     .replace('<meta name="robots" content="noindex">', '')
     .replace(
       '<link rel="icon" href="/share/static/favicon.ico">',
-      '<link rel="icon" href="/favicon.svg">'
+      '<link rel="icon" href="/avatar.webp">'
     )
     .replace(
       '<link rel="apple-touch-icon" href="/share/static/logo-192.png">',
-      '<link rel="apple-touch-icon" href="/favicon.png">'
+      '<link rel="apple-touch-icon" href="/avatar.webp">'
     )
     .replace(
-      '<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">',
+      '<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"',
       ''
     )
     .replace(

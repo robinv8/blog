@@ -2,7 +2,7 @@ const BLOG = {
   title: 'robin 的博客',
   author: 'robin',
   email: 'robin@rnode.me',
-  link: 'https://blog.robin.me',
+  link: 'https://blog.rnode.me',
   newsletter: 'Weekly',
   description: '记录生活，记录成长',
   lang: 'zh-CN', // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES']

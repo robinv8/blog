@@ -24,6 +24,14 @@ module.exports = {
         },
         night: {
           DEFAULT: BLOG.darkBackground || '#000000'
+        },
+        'cover-start': {
+          light: '#eaeef8',
+          dark: '#2d3139'  // A darker shade that works well in dark mode
+        },
+        'cover-end': {
+          light: '#eff0f4',
+          dark: '#33363f'  // A darker shade that works well in dark mode
         }
       },
       fontFamily: {

@@ -57,5 +57,6 @@
   "bugs": {
     "url": "https://github.com/robinv8/blog.git/issues",
     "email": "robin@rnode.me"
-  }
+  },
+  "packageManager": "pnpm@7.12.2+sha512.f10be728034a37e6195c399560623bcd1272b1d2a575923ec370189f1bbd230b672efd71e96bb3ac9af49f131c4deb94013f74f118c3a8afbfe8a241f7036ac4"
 }
