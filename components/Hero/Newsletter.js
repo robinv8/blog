@@ -4,7 +4,7 @@ import Social from '../Common/Social.js'
 import { useState } from 'react'
 import { lang } from '@/lib/lang'
 import { useRouter } from 'next/router'
-import { NewspaperIcon, ClipboardCheckIcon } from '@heroicons/react/outline'
+import { NewspaperIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline'
 import NotionRenderer from '@/components/Post/NotionRenderer'
 
 const NewsletterHero = ({ blockMap }) => {
@@ -25,7 +25,7 @@ const NewsletterHero = ({ blockMap }) => {
       <div className='container mx-auto flex px-5 py-2 mb-10 md:flex-row flex-col items-center'>
         <div className='flex flex-col md:w-4/5 md:items-start mb-6 md:mb-0 md:text-left'>
           <NotionRenderer
-            className='md:ml-0'
+            className='notion-renderer-override'
             blockMap={blockMap}
             frontMatter={{}}
             subPageTitle={null}
@@ -37,7 +37,7 @@ const NewsletterHero = ({ blockMap }) => {
 
           <div className='flex flex-col sm:flex-row sm:justify-center gap-4'>
             <Link passHref href={BLOG.telegramChannelUrl} scroll={false} className='flex'>
-              <button className='w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex py-3 px-5 rounded-lg items-center'>
+              <button className='w-full cursor-pointer bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex py-3 px-5 rounded-lg items-center'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='currentColor'
@@ -60,7 +60,7 @@ const NewsletterHero = ({ blockMap }) => {
                 disabled
                 className='bg-gray-200 dark:bg-gray-600 inline-flex py-3 px-5 rounded-lg items-center'
               >
-                <ClipboardCheckIcon className='inline-block text-gray-600 dark:text-day h-7 w-7' />
+                <ClipboardDocumentCheckIcon className='inline-block text-gray-600 dark:text-day h-7 w-7' />
                 <span className='ml-4 flex items-start flex-col leading-none'>
                   <span className='text-xs text-gray-600 dark:text-day mb-1'>
                     {t.HERO.RSS_BUTTON_DES_COPIED}
@@ -71,7 +71,7 @@ const NewsletterHero = ({ blockMap }) => {
             ) : (
               <button
                 onClick={() => clickCopy()}
-                className='bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex py-3 px-5 rounded-lg items-center'
+                className='cursor-pointer bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 inline-flex py-3 px-5 rounded-lg items-center'
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'

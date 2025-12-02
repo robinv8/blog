@@ -6,11 +6,11 @@ import { useRouter } from 'next/router'
 import {
   HomeIcon,
   NewspaperIcon,
-  CollectionIcon,
+  RectangleStackIcon,
   SparklesIcon,
-  SearchIcon,
-  MenuIcon
-} from '@heroicons/react/outline'
+  MagnifyingGlassIcon,
+  Bars3Icon
+} from '@heroicons/react/24/outline'
 import Social from '../Common/Social.js'
 import ThemeSwitcher from './ThemeSwitcher.js'
 import LangSwitcher from './LangSwitcher.js'
@@ -49,7 +49,7 @@ const NavBar = () => {
       id: 2,
       name: t.NAV.NOTES,
       to: '/notes',
-      icon: <CollectionIcon className='inline-block mb-1 h-5 w-5' />,
+      icon: <RectangleStackIcon className='inline-block mb-1 h-5 w-5' />,
       show: BLOG.pagesShow.notes
     },
     {
@@ -63,7 +63,7 @@ const NavBar = () => {
       id: 4,
       name: t.NAV.SEARCH,
       to: '/search',
-      icon: <SearchIcon className='inline-block mb-1 h-5 w-5' />,
+      icon: <MagnifyingGlassIcon className='inline-block mb-1 h-5 w-5' />,
       show: true
     }
   ]
@@ -103,7 +103,7 @@ const NavBar = () => {
           onClick={() => setShowMenu((showMenu) => !showMenu)}
           className='hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg block p-2 -mr-3 md:pb-3'
         >
-          <MenuIcon className='inline-block mb-1 h-5 w-5' />
+          <Bars3Icon className='inline-block mb-1 h-5 w-5' />
         </button>
         {showMenu && (
           <div className='absolute right-0 w-40 mr-4 mt-2 bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-600 rounded-md shadow-lg outline-none'>
@@ -166,7 +166,7 @@ const Header = ({ navBarTitle, fullWidth }) => {
     <>
       <div className='observer-element h-4 md:h-12' ref={sentinelRef}></div>
       <div
-        className={`sticky-nav m-auto w-full h-6 flex flex-row justify-between items-center mb-2 md:mb-12 py-8 bg-opacity-60 ${
+        className={`sticky-nav m-auto w-full h-6 flex flex-row justify-between items-center mb-2 md:mb-12 py-8 ${
           !fullWidth ? 'max-w-3xl px-4' : 'px-4 md:px-24'
         }`}
         id='sticky-nav'
