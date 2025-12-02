@@ -1,6 +1,11 @@
 import BLOG from '@/blog.config'
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+
 const Utterances = ({ issueTerm, layout }) => {
+  const router = useRouter()
+  const { asPath } = router
+
   useEffect(() => {
     const theme =
       BLOG.appearance === 'auto'
@@ -8,24 +13,36 @@ const Utterances = ({ issueTerm, layout }) => {
         : BLOG.appearance === 'light'
           ? 'github-light'
           : 'github-dark'
-    const script = document.createElement('script')
+    
     const anchor = document.getElementById('comments')
+    if (!anchor) return
+
+    // 清除之前的内容
+    anchor.innerHTML = ''
+
+    const script = document.createElement('script')
     script.setAttribute('src', 'https://utteranc.es/client.js')
     script.setAttribute('crossorigin', 'anonymous')
     script.setAttribute('async', true)
     script.setAttribute('repo', BLOG.comment.utterancesConfig.repo)
-    script.setAttribute('issue-term', issueTerm)
+    // 使用 pathname 作为 issue-term，这样每篇文章对应一个 issue
+    script.setAttribute('issue-term', issueTerm || asPath)
     script.setAttribute('theme', theme)
+    script.setAttribute('label', 'comment')
+    
     anchor.appendChild(script)
+
     return () => {
-      anchor.innerHTML = ''
+      if (anchor) {
+        anchor.innerHTML = ''
+      }
     }
-  })
+  }, [asPath, issueTerm])
   return (
     <>
       <div
         id='comments'
-        className={layout && layout === 'fullWidth' ? '' : 'md:-ml-16'}
+        className={layout && layout === 'fullWidth' ? '' : ''}
       >
         <div className='utterances-frame'></div>
       </div>

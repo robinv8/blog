@@ -66,14 +66,27 @@ const BLOG = {
     }
   },
   comment: {
-    // support provider: utterances, supacomments
-    provider: '', // leave it empty if you don't need any comment plugin
+    // support provider: utterances, supacomments, giscus
+    provider: 'utterances', // 'utterances' | 'supacomments' | 'giscus' | '' (empty to disable)
     supaCommentsConfig: {
       supabaseUrl: '', // The url of your Supabase instance
       supabaseAnonKey: '' // The anonymous key of your Supabase instance
     },
     utterancesConfig: {
-      repo: ''
+      repo: 'robinv8/blog' // GitHub repository in format 'owner/repo', e.g. 'robinv8/blog'
+    },
+    giscusConfig: {
+      repo: 'robinv8/blog', // GitHub repository in format 'owner/repo'
+      repoId: '', // Repository ID from Giscus (get from https://giscus.app)
+      category: 'Announcements', // Discussion category name
+      categoryId: '', // Category ID from Giscus
+      mapping: 'pathname', // 'pathname' | 'url' | 'title' | 'og:title'
+      reactionsEnabled: '1', // '1' to enable reactions, '0' to disable
+      emitMetadata: '0', // '1' to emit discussion metadata, '0' to disable
+      inputPosition: 'bottom', // 'top' | 'bottom'
+      theme: 'preferred_color_scheme', // Theme mode
+      lang: 'zh-CN', // Language code
+      crossorigin: 'anonymous'
     }
   },
   isProd: process.env.VERCEL_ENV === 'production' // distinguish between development and production environment (ref: https://vercel.com/docs/environment-variables#system-environment-variables)
