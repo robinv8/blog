@@ -9,14 +9,15 @@ export async function getStaticProps() {
   const posts = await getAllPosts({ onlyPost: true })
 
   const heros = await getAllPosts({ onlyHidden: true })
-  const hero = heros.find((t) => t.slug === 'index')
+  const hero = heros?.find((t) => t.slug === 'index')
 
-  let blockMap
-  try {
-    blockMap = await getPostBlocks(hero.id)
-  } catch (err) {
-    console.error(err)
-    // return { props: { post: null, blockMap: null } }
+  let blockMap = null
+  if (hero?.id) {
+    try {
+      blockMap = await getPostBlocks(hero.id)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const postsToShow = posts.slice(0, BLOG.postsPerPage)

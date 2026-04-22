@@ -16,14 +16,15 @@ export async function getStaticProps() {
   }
 
   const heros = await getAllPosts({ onlyHidden: true })
-  const hero = heros.find((t) => t.slug === 'notes')
+  const hero = heros?.find((t) => t.slug === 'notes')
 
-  let blockMap
-  try {
-    blockMap = await getPostBlocks(hero.id)
-  } catch (err) {
-    console.error(err)
-    // return { props: { post: null, blockMap: null } }
+  let blockMap = null
+  if (hero?.id) {
+    try {
+      blockMap = await getPostBlocks(hero.id)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return {

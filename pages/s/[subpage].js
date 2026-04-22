@@ -4,7 +4,7 @@ import { getAllPosts, getPostBlocks } from '@/lib/notion'
 import { useRouter } from 'next/router'
 
 import { getAllPagesInSpace, getPageBreadcrumbs, idToUuid } from 'notion-utils'
-import { defaultMapPageUrl } from 'react-notion-x'
+import { defaultMapPageUrl } from 'notion-utils'
 
 import Loading from '@/components/Loading'
 import NotFound from '@/components/NotFound'

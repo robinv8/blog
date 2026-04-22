@@ -53,6 +53,9 @@ const components = {
  */
 export default function NotionRenderer (props) {
   const { locale } = useRouter()
+  if (!props.blockMap) {
+    return null
+  }
   const mapPageUrl = (id) => {
     // console.log('mapPageUrl', BLOG.lang.split('-')[0])
     if (locale === BLOG.lang.split('-')[0]) {
