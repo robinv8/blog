@@ -8,11 +8,13 @@ export default function TableOfContents ({ blockMap, frontMatter, pageTitle, sho
   let collectionId, page
   if (pageTitle) {
     collectionId = Object.keys(blockMap.block)[0]
-    page = blockMap.block[collectionId].value
+    page = blockMap.block[collectionId]?.value?.value
   } else {
     collectionId = Object.keys(blockMap.collection)[0]
-    page = Object.values(blockMap.block).find(block => block.value.parent_id === collectionId).value
+    const foundBlock = Object.values(blockMap.block).find(block => block.value?.value?.parent_id === collectionId)
+    page = foundBlock?.value?.value
   }
+  if (!page) return null
   const nodes = getPageTableOfContents(page, blockMap)
   if (!nodes.length || !showScrollElement) return null
 
@@ -22,7 +24,7 @@ export default function TableOfContents ({ blockMap, frontMatter, pageTitle, sho
    */
   const getHeaderLevel = (node) => {
     // Get the type information of the corresponding block through blockMap
-    const block = blockMap?.block?.[node.id]?.value
+    const block = blockMap?.block?.[node.id]?.value?.value
     if (block?.type === 'header') return 1
     if (block?.type === 'sub_header') return 2
     if (block?.type === 'sub_sub_header') return 3
