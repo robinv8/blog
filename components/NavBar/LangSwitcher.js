@@ -9,13 +9,12 @@ const LangSwitcher = () => {
 
   return (
     <Link
-      passHref
       href={asPath}
       locale={nextLocale}
       scroll={false}
       aria-label={isEn ? 'Switch to Chinese' : 'Switch to English'}
       title={isEn ? '切换到中文' : 'Switch to English'}
-      className='px-2 py-1.5 text-[12px] font-medium tracking-wide text-ink-mute dark:text-ink-mute hover:text-ink dark:hover:text-ink-invert transition-colors rounded-md'
+      className='inline-flex items-center justify-center h-9 min-w-9 px-2 text-[12px] font-medium tracking-wide text-ink-mute hover:text-ink dark:hover:text-ink-invert transition-colors'
     >
       {label}
     </Link>

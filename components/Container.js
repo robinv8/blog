@@ -12,11 +12,10 @@ const Container = ({ children, fullWidth, wide, ...customMeta }) => {
     type: 'website',
     ...customMeta
   }
+  // Keep one content width so header + main stay aligned
   const widthClass = fullWidth
     ? 'px-4 md:px-24'
-    : wide
-      ? 'max-w-xl px-5 sm:px-6'
-      : 'max-w-2xl px-4'
+    : 'max-w-xl px-5 sm:px-6'
   return (
     <>
       <SEO meta={meta} />

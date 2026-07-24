@@ -10,24 +10,22 @@ const ThemeSwitcher = () => {
     setHasMounted(true)
   }, [])
   return (
-    <>
-      <button
-        // title={`Toggle theme - current ${theme}`}
-        aria-label='ThemeSwitcher'
-        onClick={() =>
-          setTheme(
-            theme === 'light' ? 'dark' : theme === 'system' ? 'dark' : 'light'
-          )
-        }
-        className='p-2 ml-1 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg dark:text-gray-100'
-      >
-        {hasMounted && theme === 'dark' ? (
-          <MoonIcon className='h-5 w-5' />
-        ) : (
-          <SunIcon className='h-5 w-5' />
-        )}
-      </button>
-    </>
+    <button
+      type='button'
+      aria-label='ThemeSwitcher'
+      onClick={() =>
+        setTheme(
+          theme === 'light' ? 'dark' : theme === 'system' ? 'dark' : 'light'
+        )
+      }
+      className='inline-flex items-center justify-center h-9 w-9 text-ink-mute hover:text-ink dark:hover:text-ink-invert transition-colors'
+    >
+      {hasMounted && theme === 'dark' ? (
+        <MoonIcon className='h-4 w-4' />
+      ) : (
+        <SunIcon className='h-4 w-4' />
+      )}
+    </button>
   )
 }
 

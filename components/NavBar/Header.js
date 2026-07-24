@@ -7,12 +7,11 @@ import { Bars3Icon } from '@heroicons/react/24/outline'
 import Social from '../Common/Social.js'
 import ThemeSwitcher from './ThemeSwitcher.js'
 import LangSwitcher from './LangSwitcher.js'
-import { motion } from 'framer-motion'
 
 const NavBar = () => {
   const router = useRouter()
   const { locale } = useRouter()
-  const t = lang[locale]
+  const t = lang[locale] || lang.zh
   const [showMenu, setShowMenu] = useState(false)
 
   let activeMenu = ''
@@ -48,122 +47,132 @@ const NavBar = () => {
       show: BLOG.pagesShow.contact
     }
   ]
+
   return (
-    <motion.div className='flex'>
-      {/* Desktop Menu */}
-      <ul className='hidden md:flex md:gap-1'>
+    <div className='flex items-center gap-1 sm:gap-2'>
+      {/* Desktop links */}
+      <nav className='hidden md:flex items-center gap-0.5' aria-label='Primary'>
         {links.map(
           (link) =>
             link.show && (
-              <Link passHref href={link.to} key={link.id} scroll={false}>
-                <li
-                  className={`${
-                    activeMenu === link.to
-                      ? 'text-ink dark:text-ink-invert'
-                      : 'text-ink-mute dark:text-ink-mute'
-                  } hover:text-ink dark:hover:text-ink-invert cursor-pointer block py-1 px-2 nav transition-colors`}
-                >
-                  <div className='font-normal text-[13px]'>
-                    <span className='inline-block m-1'>{link.name}</span>
-                  </div>
-                </li>
+              <Link
+                key={link.id}
+                href={link.to}
+                scroll={false}
+                className={`${
+                  activeMenu === link.to
+                    ? 'text-ink dark:text-ink-invert'
+                    : 'text-ink-mute hover:text-ink dark:hover:text-ink-invert'
+                } text-[13px] font-normal px-2.5 py-1.5 transition-colors`}
+              >
+                {link.name}
               </Link>
-
             )
         )}
-      </ul>
+      </nav>
 
-      <div className='nav-func-btn block'>
+      <div className='flex items-center gap-0.5'>
         <ThemeSwitcher />
         <LangSwitcher />
       </div>
 
-      {/* Mobile Phone Menu */}
-      <div className='md:hidden mr-2 block '>
+      {/* Mobile menu */}
+      <div className='relative md:hidden'>
         <button
-          type='button' aria-label='Menu'
-          onClick={() => setShowMenu((showMenu) => !showMenu)}
-          className='hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg block p-2 -mr-3 md:pb-3'
+          type='button'
+          aria-label='Menu'
+          aria-expanded={showMenu}
+          onClick={() => setShowMenu((v) => !v)}
+          className='flex items-center justify-center h-9 w-9 text-ink-soft hover:text-ink dark:hover:text-ink-invert transition-colors'
         >
-          <Bars3Icon className='inline-block mb-1 h-5 w-5' />
+          <Bars3Icon className='h-5 w-5' />
         </button>
         {showMenu && (
-          <div className='absolute right-0 w-40 mr-4 mt-2 bg-paper-raised dark:bg-paper-dark border border-ink-line dark:border-ink-line divide-y divide-ink-line rounded-md shadow-lg outline-none'>
+          <div className='absolute right-0 top-full mt-2 w-44 z-20 bg-paper-raised dark:bg-paper-dark border border-ink-line rounded-md shadow-lg outline-none'>
             <div className='py-1'>
               {links.map(
                 (link) =>
                   link.show && (
-                    <Link passHref key={link.id} href={link.to} scroll={false}>
-                      <button
-                        onClick={() => setShowMenu((showMenu) => !showMenu)}
-                        className='text-left hover:text-ink dark:hover:text-ink-invert text-ink-soft font-normal block justify-between w-full px-4 py-2 leading-5 text-sm'
-                      >
-                        <span className='m-1'>{link.name}</span>
-                      </button>
+                    <Link
+                      key={link.id}
+                      href={link.to}
+                      scroll={false}
+                      onClick={() => setShowMenu(false)}
+                      className='block w-full px-4 py-2.5 text-left text-sm text-ink-soft hover:text-ink dark:hover:text-ink-invert'
+                    >
+                      {link.name}
                     </Link>
                   )
               )}
             </div>
-            <div className='px-4 py-4'>
+            <div className='px-4 py-3 border-t border-ink-line'>
               <Social />
             </div>
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   )
 }
 
 const Header = ({ navBarTitle, fullWidth }) => {
   const [showTitle, setShowTitle] = useState(false)
   const useSticky = !BLOG.autoCollapsedNavBar
-  const navRef = useRef(/** @type {HTMLDivElement} */ undefined)
-  const sentinelRef = useRef(/** @type {HTMLDivElement} */ undefined)
-  const handler = useCallback(([entry]) => {
-    if (useSticky && navRef.current) {
-      navRef.current?.classList.toggle('sticky-nav-full', !entry.isIntersecting)
-    } else {
-      navRef.current?.classList.add('remove-sticky')
-    }
-  }, [useSticky])
+  const navRef = useRef(/** @type {HTMLDivElement} */ (null))
+  const sentinelRef = useRef(/** @type {HTMLDivElement} */ (null))
+
+  const handler = useCallback(
+    ([entry]) => {
+      if (useSticky && navRef.current) {
+        navRef.current.classList.toggle('sticky-nav-full', !entry.isIntersecting)
+      } else if (navRef.current) {
+        navRef.current.classList.add('remove-sticky')
+      }
+    },
+    [useSticky]
+  )
 
   useEffect(() => {
     const sentinelEl = sentinelRef.current
+    if (!sentinelEl) return
     const observer = new window.IntersectionObserver(handler)
     observer.observe(sentinelEl)
 
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 400) {
-        setShowTitle(true)
-      } else {
-        setShowTitle(false)
-      }
-    })
-    return () => {
-      sentinelEl && observer.unobserve(sentinelEl)
+    const onScroll = () => {
+      setShowTitle(window.pageYOffset > 400)
     }
-  }, [handler, sentinelRef])
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      observer.unobserve(sentinelEl)
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [handler])
+
+  // Match main content width: wide pages use max-w-xl; default max-w-2xl
+  const widthClass = fullWidth
+    ? 'px-4 md:px-24'
+    : 'max-w-xl px-5 sm:px-6'
+
   return (
     <>
-      <div className='observer-element h-4 md:h-12' ref={sentinelRef}></div>
-      <div
-        className={`sticky-nav m-auto w-full h-6 flex flex-row justify-between items-center mb-2 md:mb-12 py-8 ${
-          !fullWidth ? 'max-w-3xl px-4' : 'px-4 md:px-24'
-        }`}
+      <div className='observer-element h-4 md:h-8' ref={sentinelRef} />
+      <header
+        className={`sticky-nav m-auto w-full flex items-center justify-between gap-4 mb-6 md:mb-10 py-4 ${widthClass}`}
         id='sticky-nav'
         ref={navRef}
       >
-        <div className='flex items-center'>
-          <Link passHref href='/' scroll={false} aria-label={BLOG.title}>
-            <motion.div>
-              <span className='text-[15px] font-medium text-ink dark:text-ink-invert tracking-tight hover:opacity-70 transition-opacity'>
-                {BLOG.author}
-              </span>
-            </motion.div>
+        <div className='flex items-center min-w-0 gap-3'>
+          <Link
+            href='/'
+            scroll={false}
+            aria-label={BLOG.title}
+            className='text-[15px] font-medium leading-none text-ink dark:text-ink-invert tracking-tight hover:opacity-70 transition-opacity shrink-0'
+          >
+            {BLOG.author}
           </Link>
           {navBarTitle ? (
             <p
-              className={`ml-3 text-sm text-ink-mute ${
+              className={`text-sm text-ink-mute truncate ${
                 !showTitle ? 'hidden' : 'hidden xl:block'
               }`}
             >
@@ -172,7 +181,7 @@ const Header = ({ navBarTitle, fullWidth }) => {
           ) : null}
         </div>
         <NavBar />
-      </div>
+      </header>
     </>
   )
 }
