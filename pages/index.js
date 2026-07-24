@@ -2,11 +2,12 @@ import Container from '@/components/Container'
 import BuilderHome from '@/components/Home/BuilderHome'
 import { getAllPosts } from '@/lib/notion'
 import BLOG from '@/blog.config'
-import { filterPostsByLocale } from '@/lib/locale'
+import { localizePosts } from '@/lib/translations'
 
 export async function getStaticProps({ locale }) {
   const all = await getAllPosts({ onlyPost: true })
-  const posts = filterPostsByLocale(all, locale)
+  // zh: all Chinese posts; en: only posts with EN translation files
+  const posts = localizePosts(all, locale)
   return {
     props: {
       posts: posts.slice(0, 6)

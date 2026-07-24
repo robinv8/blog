@@ -15,6 +15,15 @@ module.exports = {
     domains: ['api.craft.do', 'www.notion.so', 'images.unsplash.com', 's3.us-west-2.amazonaws.com']
   },
   output: "standalone",
+  // Ship English translation JSON with serverless/standalone builds
+  experimental: {
+    outputFileTracingIncludes: {
+      '/': ['./content/en/**/*'],
+      '/[slug]': ['./content/en/**/*'],
+      '/writing': ['./content/en/**/*'],
+      '/page/[page]': ['./content/en/**/*']
+    }
+  },
   async headers() {
     return [
       {

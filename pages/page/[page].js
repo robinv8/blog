@@ -3,7 +3,7 @@ import BlogPost from '@/components/BlogPost'
 import Pagination from '@/components/Pagination'
 import { getAllPosts } from '@/lib/notion'
 import BLOG from '@/blog.config'
-import { filterPostsByLocale } from '@/lib/locale'
+import { localizePosts } from '@/lib/translations'
 
 const Page = ({ postsToShow, page, showNext }) => {
   return (
@@ -19,7 +19,7 @@ export async function getStaticProps(context) {
   const { page } = context.params // Get Current Page No.
   const locale = context.locale
   const all = await getAllPosts({ onlyNewsletter: false })
-  const posts = filterPostsByLocale(all, locale)
+  const posts = localizePosts(all.filter((p) => p.type?.[0] === 'Post' || p.type === 'Post'), locale)
   const postsToShow = posts.slice(
     BLOG.postsPerPage * (page - 1),
     BLOG.postsPerPage * page

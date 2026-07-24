@@ -4,13 +4,13 @@ import Pagination from '@/components/Pagination'
 import { getAllPosts } from '@/lib/notion'
 import BLOG from '@/blog.config'
 import { lang } from '@/lib/lang'
-import { filterPostsByLocale } from '@/lib/locale'
+import { localizePosts } from '@/lib/translations'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 export async function getStaticProps({ locale }) {
   const all = await getAllPosts({ onlyPost: true })
-  const posts = filterPostsByLocale(all, locale)
+  const posts = localizePosts(all, locale)
   const postsToShow = posts.slice(0, BLOG.postsPerPage)
   const showNext = posts.length > BLOG.postsPerPage
   return {

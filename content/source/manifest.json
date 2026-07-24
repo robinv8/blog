@@ -1,0 +1,152 @@
+[
+  {
+    "slug": "new_friend",
+    "title": "火锅局小记",
+    "chars": 1590,
+    "file": "/Users/robin/Projects/blog/content/source/new_friend.json"
+  },
+  {
+    "slug": "2025-summary",
+    "title": "2025 年度总结：自我进化与生活回响",
+    "chars": 3038,
+    "file": "/Users/robin/Projects/blog/content/source/2025-summary.json"
+  },
+  {
+    "slug": "macbook-pro-fnos-nas-setup",
+    "title": "用 2017 款 MacBook Pro 搭建家用飞牛 NAS",
+    "chars": 3970,
+    "file": "/Users/robin/Projects/blog/content/source/macbook-pro-fnos-nas-setup.json"
+  },
+  {
+    "slug": "insta360-ace-pro-2-she-ying-zhi-nan",
+    "title": "Insta360 Ace Pro 2 摄影指南",
+    "chars": 2434,
+    "file": "/Users/robin/Projects/blog/content/source/insta360-ace-pro-2-she-ying-zhi-nan.json"
+  },
+  {
+    "slug": "claude-code-optimization-tips",
+    "title": "Claude Code 优化项目后给我的一些建议",
+    "chars": 1450,
+    "file": "/Users/robin/Projects/blog/content/source/claude-code-optimization-tips.json"
+  },
+  {
+    "slug": "wo-de-zhou-mo-gan-wu",
+    "title": "周末碎片：那些不经意的触动与思考",
+    "chars": 1783,
+    "file": "/Users/robin/Projects/blog/content/source/wo-de-zhou-mo-gan-wu.json"
+  },
+  {
+    "slug": "Making coffee",
+    "title": "咖啡的艺术：从豆到杯的旅程",
+    "chars": 2922,
+    "file": "/Users/robin/Projects/blog/content/source/Making_coffee.json"
+  },
+  {
+    "slug": "ai-coding-era",
+    "title": "再探 AI 编程助手工作流：原理与实践",
+    "chars": 3983,
+    "file": "/Users/robin/Projects/blog/content/source/ai-coding-era.json"
+  },
+  {
+    "slug": "2025",
+    "title": "又是一年",
+    "chars": 28,
+    "file": "/Users/robin/Projects/blog/content/source/2025.json"
+  },
+  {
+    "slug": "Winter-Solstice-Day",
+    "title": "冬至的前一天",
+    "chars": 585,
+    "file": "/Users/robin/Projects/blog/content/source/Winter-Solstice-Day.json"
+  },
+  {
+    "slug": "update-blogging-challenges",
+    "title": "更新博客的难处",
+    "chars": 8,
+    "file": "/Users/robin/Projects/blog/content/source/update-blogging-challenges.json"
+  },
+  {
+    "slug": "first-time-writing-code",
+    "title": "我的编程启示录：第一次敲代码的感悟",
+    "chars": 792,
+    "file": "/Users/robin/Projects/blog/content/source/first-time-writing-code.json"
+  },
+  {
+    "slug": "CI-CD",
+    "title": "持续集成部署实践",
+    "chars": 957,
+    "file": "/Users/robin/Projects/blog/content/source/CI-CD.json"
+  },
+  {
+    "slug": "react-hooks",
+    "title": "React Hooks 学习笔记",
+    "chars": 3325,
+    "file": "/Users/robin/Projects/blog/content/source/react-hooks.json"
+  },
+  {
+    "slug": "react-lifecycle",
+    "title": "React 生命周期的打怪升级之路",
+    "chars": 2631,
+    "file": "/Users/robin/Projects/blog/content/source/react-lifecycle.json"
+  },
+  {
+    "slug": "react-hoc",
+    "title": "React HOC 高阶组件",
+    "chars": 4597,
+    "file": "/Users/robin/Projects/blog/content/source/react-hoc.json"
+  },
+  {
+    "slug": "urlcat-source-code-interpretation",
+    "title": "走进开源项目 - urlcat 源码分析",
+    "chars": 7514,
+    "file": "/Users/robin/Projects/blog/content/source/urlcat-source-code-interpretation.json"
+  },
+  {
+    "slug": "front-end-learning-go-language",
+    "title": "前端如何入门 Go 语言",
+    "chars": 1300,
+    "file": "/Users/robin/Projects/blog/content/source/front-end-learning-go-language.json"
+  },
+  {
+    "slug": "opensource-urlcat",
+    "title": "走进开源项目 - urlcat",
+    "chars": 4324,
+    "file": "/Users/robin/Projects/blog/content/source/opensource-urlcat.json"
+  },
+  {
+    "slug": "2019-summary",
+    "title": "2019 年终总结",
+    "chars": 791,
+    "file": "/Users/robin/Projects/blog/content/source/2019-summary.json"
+  },
+  {
+    "slug": "2017-summary",
+    "title": "2017 年终总结",
+    "chars": 839,
+    "file": "/Users/robin/Projects/blog/content/source/2017-summary.json"
+  },
+  {
+    "slug": "2017-starting",
+    "title": "初到西安",
+    "chars": 574,
+    "file": "/Users/robin/Projects/blog/content/source/2017-starting.json"
+  },
+  {
+    "slug": "2022-summary",
+    "title": "2022 年终总结",
+    "chars": 971,
+    "file": "/Users/robin/Projects/blog/content/source/2022-summary.json"
+  },
+  {
+    "slug": "speech-control-lamp",
+    "title": "语音控制灯",
+    "chars": 25,
+    "file": "/Users/robin/Projects/blog/content/source/speech-control-lamp.json"
+  },
+  {
+    "slug": "eslint-import-order",
+    "title": "eslint-plugin-import 规则之 Import / Order",
+    "chars": 1299,
+    "file": "/Users/robin/Projects/blog/content/source/eslint-import-order.json"
+  }
+]

@@ -8,20 +8,27 @@ import Aside from '@/components/Post/Aside'
 import Comments from '@/components/Post/Comments'
 import PostFooter from '@/components/Post/PostFooter'
 
-const Layout = ({ blockMap, frontMatter, fullWidth = false, subPage = false }) => {
+const Layout = ({
+  blockMap,
+  frontMatter,
+  fullWidth = false,
+  subPage = false,
+  translationMarkdown = null
+}) => {
   const [showSubPageTitle, setShowSubPageTitle] = useState(false)
+  const useTranslation = Boolean(translationMarkdown)
 
-  const pageTitle = blockMap ? getPageTitle(blockMap) : frontMatter?.title
+  const pageTitle = !useTranslation && blockMap ? getPageTitle(blockMap) : frontMatter?.title
   useEffect(() => {
-    if (blockMap && frontMatter.title !== pageTitle) {
+    if (!useTranslation && blockMap && frontMatter.title !== pageTitle) {
       setShowSubPageTitle(true)
     }
-  }, [frontMatter, pageTitle, subPage, blockMap])
+  }, [frontMatter, pageTitle, subPage, blockMap, useTranslation])
 
-  if (!blockMap) {
+  if (!useTranslation && !blockMap) {
     return (
       <Container title={frontMatter?.title || 'Post'} description={frontMatter?.summary} type='article'>
-        <p className='text-neutral-600 dark:text-neutral-400 py-12'>Content is loading…</p>
+        <p className='text-ink-mute py-12'>Content is loading…</p>
       </Container>
     )
   }
@@ -30,7 +37,6 @@ const Layout = ({ blockMap, frontMatter, fullWidth = false, subPage = false }) =
     <Container
       title={`${frontMatter.title}${frontMatter.title === pageTitle ? '' : ' | ' + pageTitle}`}
       description={frontMatter.summary}
-      // date={new Date(frontMatter.publishedAt).toISOString()}
       type='article'
       fullWidth={fullWidth}
     >
@@ -39,12 +45,15 @@ const Layout = ({ blockMap, frontMatter, fullWidth = false, subPage = false }) =
           frontMatter={frontMatter}
           blockMap={blockMap}
           pageTitle={showSubPageTitle ? pageTitle : null}
+          translationMarkdown={translationMarkdown}
         />
-        <Aside
-          frontMatter={frontMatter}
-          blockMap={blockMap}
-          pageTitle={showSubPageTitle ? pageTitle : null}
-        />
+        {!useTranslation && (
+          <Aside
+            frontMatter={frontMatter}
+            blockMap={blockMap}
+            pageTitle={showSubPageTitle ? pageTitle : null}
+          />
+        )}
       </motion.div>
       <PostFooter />
       <Comments frontMatter={frontMatter} />

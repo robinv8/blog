@@ -1,0 +1,12 @@
+{
+  "id": "05111ee2-0ee2-4bcb-895a-7f1431b2b132",
+  "title": "语音控制灯",
+  "slug": "speech-control-lamp",
+  "summary": "使用 DuerOS 语音控制灯",
+  "date": "2018-02-23",
+  "tags": [
+    "IOT"
+  ],
+  "markdown": "这是之前做的一个物联网的demo,给大家做个演示。",
+  "char_count": 25
+}

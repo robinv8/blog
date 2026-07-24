@@ -4,59 +4,83 @@ import BLOG from '@/blog.config'
 import { useRouter } from 'next/router'
 import Loading from '@/components/Loading'
 import NotFound from '@/components/NotFound'
+import { localizePost } from '@/lib/translations'
 
-const Post = ({ post, blockMap }) => {
+const Post = ({ post, blockMap, translationMarkdown }) => {
   const router = useRouter()
   if (router.isFallback) {
-    return (
-      <Loading />
-    )
+    return <Loading />
   }
   if (!post) {
     return <NotFound statusCode={404} />
   }
   return (
-    <Layout blockMap={blockMap} frontMatter={post} fullWidth={post.fullWidth} />
+    <Layout
+      blockMap={blockMap}
+      frontMatter={post}
+      fullWidth={post.fullWidth}
+      translationMarkdown={translationMarkdown}
+    />
   )
 }
 
 export async function getStaticPaths() {
-  // Don't prerender every post at build time — Notion rate-limits hard (429).
-  // Posts are generated on demand via ISR/fallback.
+  // Avoid prerendering every post (Notion 429). Generate on first request.
   return {
     paths: [],
-    fallback: true
+    fallback: 'blocking'
   }
 }
 
-export async function getStaticProps({ params: { slug } }) {
+export async function getStaticProps({ params: { slug }, locale }) {
   try {
     const posts = await getAllPosts({ onlyNewsletter: false })
-    const post = posts.find((t) => t.slug === slug)
+    const raw = posts.find((t) => t.slug === slug)
 
-    if (!post?.id) {
-      return { props: { post: null, blockMap: null }, revalidate: 60 }
+    if (!raw?.id) {
+      return { props: { post: null, blockMap: null, translationMarkdown: null }, revalidate: 60 }
     }
 
-    const blockMap = await getPostBlocks(post.id)
+    const post = localizePost(raw, locale)
+    const isEn = locale === 'en'
+    const translationMarkdown = post.translationMarkdown || null
+
+    // English with translation: no need to fetch Notion blocks
+    if (isEn && translationMarkdown) {
+      return {
+        props: {
+          post: {
+            ...post,
+            sourceTitle: post.sourceTitle || raw.title
+          },
+          blockMap: null,
+          translationMarkdown
+        },
+        revalidate: 3600
+      }
+    }
+
+    // English without translation yet: 404 on EN site (list also hides these)
+    if (isEn && !translationMarkdown) {
+      return { props: { post: null, blockMap: null, translationMarkdown: null }, revalidate: 300 }
+    }
+
+    const blockMap = await getPostBlocks(raw.id)
     if (!blockMap) {
-      // Layout requires blockMap; fail soft and retry later via ISR.
-      return { props: { post: null, blockMap: null }, revalidate: 60 }
+      return { props: { post: null, blockMap: null, translationMarkdown: null }, revalidate: 60 }
     }
     return {
       props: {
-        post,
-        blockMap
+        post: raw,
+        blockMap,
+        translationMarkdown: null
       },
       revalidate: 1
     }
   } catch (err) {
     console.error(err)
     return {
-      props: {
-        post: null,
-        blockMap: null
-      },
+      props: { post: null, blockMap: null, translationMarkdown: null },
       revalidate: 60
     }
   }

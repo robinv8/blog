@@ -1,0 +1,13 @@
+{
+  "id": "2a78dc75-7190-4854-ac49-fe0873c1c839",
+  "title": "前端如何入门 Go 语言",
+  "slug": "front-end-learning-go-language",
+  "summary": "类比法是一种学习方法，它是通过将新知识与已知知识进行比较，从而加深对新知识的理解。在学习 Go 语言的过程中，我发现，通过类比已有的前端知识，可以更好地理解 Go 语言的特性。",
+  "date": "2022-12-16",
+  "tags": [
+    "Go",
+    "Javascript"
+  ],
+  "markdown": "类比法是一种学习方法，它是通过将新知识与已知知识进行比较，从而加深对新知识的理解。在学习 Go 语言的过程中，我发现，通过类比已有的前端知识，可以更好地理解 Go 语言的特性。\n## 语法对比\n### import 包方式\nGo 语言的包导入方式与前端的模块导入方式类似，都是通过 import 关键字导入，但是 Go 语言的导入方式更加简洁，只需要写包名即可，不需要写路径。\n```plain text\n// js\nimport a from \"a\";\nimport b from \"b\"\n\n// go\nimport (\n    \"a\"\n    \"b\"\n)\n\n```\n### 变量声明\n```plain text\n// js\nvar a = \"a\";\nlet b = \"b\";\nconst c = \"c\";\n\n// go\nvar x string = \"x\";\nx := \"x\" // 自动把变量类型、声明和赋值都搞定了\n```\n### 条件\n```plain text\n// js\nif (a === \"js\") {\n\n} else {\n\n}\n\n// go\nif a == \"go\" {\n\n} else {\n\n}\n```\n### 循环\n```plain text\n// js\nfor(let i = 0; i < 100; i++) {\n\n}\n\n// go\nfor i := 0; i < 100; i++ {\n\n}\n```\n### 函数\n```plain text\n// js\nfunction helloJS() {\n    console.log(\"hello js\");\n\n    learnJS();\n}\n\nfunction learnJS() {\n    console.log(\"learn js\");\n}\n\n// go\nfunc helloGo() {\n    fmt.Println(\"hello go\");\n}\n\nfunc learnGo() {\n    fmt.Println(\"learn go\");\n\n    learnGo();\n}\n```\n在语法层面的相似之处，加深了我对 Go 的理解，让我更容易上手 Go。\n## 搭建网站\n网站地址：https://daily.rnode.me/ \nGithub 地址：https://github.com/robinv8/daily\n记录日常看到的有趣的内容。\n![image]()\n## 为什么要做\n前端构建编译方向涌现出 esbuild、swc、turbopack 等下一代构建工具，大幅提升编译速度。其次，公司后端技术栈转向 Go，大家都说很简单，因此有了这个想法。\n## 技术栈\n- 前端：Astro\n- 后端：Go\n- 数据库：PostgreSQL\n## 参考\n- tw93/weekly\n- Learn X in Y minutes\n## 总结\n通过这个项目，我学习到了 Go 语言的基础语法，后期会不断完善该项目，加入更多功能。以此来巩固 Go 语言的知识。\n> 本文参与了思否技术征文，欢迎正在阅读的你也加入。",
+  "char_count": 1300
+}

@@ -1,0 +1,30 @@
+// Auto-generated. Do not edit by hand.
+const translations = {
+  "2017-starting": require('./2017-starting.json'),
+  "2017-summary": require('./2017-summary.json'),
+  "2019-summary": require('./2019-summary.json'),
+  "2022-summary": require('./2022-summary.json'),
+  "2025-summary": require('./2025-summary.json'),
+  "2025": require('./2025.json'),
+  "CI-CD": require('./CI-CD.json'),
+  "Making coffee": require('./Making_coffee.json'),
+  "Winter-Solstice-Day": require('./Winter-Solstice-Day.json'),
+  "ai-coding-era": require('./ai-coding-era.json'),
+  "claude-code-optimization-tips": require('./claude-code-optimization-tips.json'),
+  "eslint-import-order": require('./eslint-import-order.json'),
+  "first-time-writing-code": require('./first-time-writing-code.json'),
+  "front-end-learning-go-language": require('./front-end-learning-go-language.json'),
+  "insta360-ace-pro-2-she-ying-zhi-nan": require('./insta360-ace-pro-2-she-ying-zhi-nan.json'),
+  "macbook-pro-fnos-nas-setup": require('./macbook-pro-fnos-nas-setup.json'),
+  "new_friend": require('./new_friend.json'),
+  "opensource-urlcat": require('./opensource-urlcat.json'),
+  "react-hoc": require('./react-hoc.json'),
+  "react-hooks": require('./react-hooks.json'),
+  "react-lifecycle": require('./react-lifecycle.json'),
+  "speech-control-lamp": require('./speech-control-lamp.json'),
+  "update-blogging-challenges": require('./update-blogging-challenges.json'),
+  "urlcat-source-code-interpretation": require('./urlcat-source-code-interpretation.json'),
+  "wo-de-zhou-mo-gan-wu": require('./wo-de-zhou-mo-gan-wu.json'),
+}
+
+module.exports = translations
