@@ -1,21 +1,26 @@
 import SEO from '@/components/Common/SEO'
 import BLOG from '@/blog.config'
+import { pickLocale } from '@/lib/locale'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 
-const Container = ({ children, fullWidth, ...customMeta }) => {
+const Container = ({ children, fullWidth, wide, ...customMeta }) => {
+  const { locale } = useRouter()
   const meta = {
     title: BLOG.title,
+    description: pickLocale(BLOG.description, locale),
     type: 'website',
     ...customMeta
   }
+  const widthClass = fullWidth
+    ? 'px-4 md:px-24'
+    : wide
+      ? 'max-w-xl px-5 sm:px-6'
+      : 'max-w-2xl px-4'
   return (
     <>
       <SEO meta={meta} />
-      <main
-        className={`m-auto flex-grow w-full transition-all ${
-          !fullWidth ? 'max-w-2xl px-4' : 'px-4 md:px-24'
-        }`}
-      >
+      <main className={`m-auto flex-grow w-full transition-all ${widthClass}`}>
         {children}
       </main>
     </>

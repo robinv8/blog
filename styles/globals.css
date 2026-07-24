@@ -23,16 +23,48 @@ html::-webkit-scrollbar-thumb {
 }
 
 ::selection {
-  background: rgba(45, 170, 219, 0.3);
+  background: color-mix(in oklab, #a65b3a 22%, transparent);
+}
+
+.dark ::selection {
+  background: color-mix(in oklab, #c47a58 28%, transparent);
+}
+
+/* Paper personal home */
+.personal-home {
+  --paper-ink: #2c2824;
+  --paper-soft: #5c564e;
+  --paper-mute: #8a8378;
+  --paper-faint: #a39c90;
+  --paper-line: #ddd6c8;
+  color: var(--paper-soft);
+}
+
+.dark .personal-home {
+  --paper-ink: #f0ebe3;
+  --paper-soft: #c4bdb2;
+  --paper-mute: #8f877c;
+  --paper-faint: #6e675e;
+  --paper-line: #3a342e;
+  color: var(--paper-soft);
+}
+
+.personal-home a {
+  color: var(--paper-ink);
 }
 
 .sticky-nav {
   position: sticky;
   z-index: 10;
   top: -1px;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
+  background-color: color-mix(in oklab, var(--color-day, #f4f0e6) 82%, transparent);
   transition: all 0.5s cubic-bezier(0.4, 0, 0, 1);
   border-bottom-color: transparent;
+}
+
+.dark .sticky-nav {
+  background-color: color-mix(in oklab, #1a1714 82%, transparent);
 }
 
 .remove-sticky {
@@ -101,11 +133,9 @@ nav {
   @apply hidden xl:block fixed top-1/6 transform -translate-y-1/2;
   @apply w-56 max-h-96 overflow-y-auto;
   @apply text-sm text-gray-500 dark:text-gray-400;
-  /* Responsive right positioning - avoid sticking to the edge on wide screens */
   right: max(2rem, calc((100vw - 1400px) / 2 + 2rem));
 }
 
-/* Multi-level title decoration effect */
 .table-of-contents .hover\:bg-gray-200:hover a {
   @apply text-blue-600 dark:text-blue-400;
 }

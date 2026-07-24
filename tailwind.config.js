@@ -18,12 +18,32 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        day: BLOG.lightBackground || '#ffffff',
-        night: BLOG.darkBackground || '#000000'
+        day: BLOG.lightBackground || '#F4F0E6',
+        night: BLOG.darkBackground || '#1A1714',
+        // Warm paper palette
+        paper: {
+          DEFAULT: '#F4F0E6',
+          soft: '#EBE6DA',
+          dark: '#1A1714',
+          raised: '#FAF7F0'
+        },
+        ink: {
+          DEFAULT: '#2C2824',
+          soft: '#5C564E',
+          mute: '#8A8378',
+          faint: '#A39C90',
+          line: '#DDD6C8',
+          invert: '#F0EBE3'
+        },
+        rust: {
+          DEFAULT: '#A65B3A',
+          soft: '#C47A58'
+        }
       },
       fontFamily: {
-        sans: [...fontFamily.sans, ...fontSansCJK],
-        serif: [...fontFamily.serif, ...fontSerifCJK],
+        sans: ['"Source Sans 3"', ...fontFamily.sans, ...fontSansCJK],
+        serif: ['"Instrument Serif"', ...fontFamily.serif, ...fontSerifCJK],
+        display: ['"Instrument Serif"', ...fontFamily.serif, ...fontSerifCJK],
         noEmoji: [
           'ui-sans-serif',
           'system-ui',

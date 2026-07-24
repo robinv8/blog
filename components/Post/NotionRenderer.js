@@ -10,27 +10,34 @@ const components = {
   // Code block
   Code: dynamic(() => {
     return import('react-notion-x/build/third-party/code').then(async module => {
-      // Additional prismjs syntax
-      await Promise.all([
-        import('prismjs/components/prism-bash'),
-        import('prismjs/components/prism-c'),
-        import('prismjs/components/prism-cpp'),
-        import('prismjs/components/prism-docker'),
-        import('prismjs/components/prism-js-templates'),
-        import('prismjs/components/prism-diff'),
-        import('prismjs/components/prism-git'),
-        import('prismjs/components/prism-go'),
-        import('prismjs/components/prism-graphql'),
-        import('prismjs/components/prism-makefile'),
-        import('prismjs/components/prism-markdown'),
-        import('prismjs/components/prism-python'),
-        import('prismjs/components/prism-rust'),
-        import('prismjs/components/prism-solidity'),
-        import('prismjs/components/prism-sql'),
-        import('prismjs/components/prism-swift'),
-        import('prismjs/components/prism-wasm'),
-        import('prismjs/components/prism-yaml')
-      ])
+      // Additional prismjs syntax (wrapped in try/catch for React 19 compat)
+      await Promise.all(
+        [
+          'prismjs/components/prism-bash',
+          'prismjs/components/prism-c',
+          'prismjs/components/prism-cpp',
+          'prismjs/components/prism-docker',
+          'prismjs/components/prism-diff',
+          'prismjs/components/prism-git',
+          'prismjs/components/prism-go',
+          'prismjs/components/prism-graphql',
+          'prismjs/components/prism-makefile',
+          'prismjs/components/prism-markdown',
+          'prismjs/components/prism-python',
+          'prismjs/components/prism-rust',
+          'prismjs/components/prism-solidity',
+          'prismjs/components/prism-sql',
+          'prismjs/components/prism-swift',
+          'prismjs/components/prism-wasm',
+          'prismjs/components/prism-yaml'
+        ].map(async (path) => {
+          try {
+            await import(path)
+          } catch (err) {
+            // Ignore prism language loading errors
+          }
+        })
+      )
       return module.Code
     })
   }),

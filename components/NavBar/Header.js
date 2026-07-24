@@ -3,18 +3,10 @@ import Link from 'next/link'
 import BLOG from '@/blog.config'
 import { lang } from '@/lib/lang'
 import { useRouter } from 'next/router'
-import {
-  HomeIcon,
-  NewspaperIcon,
-  RectangleStackIcon,
-  SparklesIcon,
-  MagnifyingGlassIcon,
-  Bars3Icon
-} from '@heroicons/react/24/outline'
+import { Bars3Icon } from '@heroicons/react/24/outline'
 import Social from '../Common/Social.js'
 import ThemeSwitcher from './ThemeSwitcher.js'
 import LangSwitcher from './LangSwitcher.js'
-import Logo from '@/components/Common/Logo'
 import { motion } from 'framer-motion'
 
 const NavBar = () => {
@@ -35,36 +27,25 @@ const NavBar = () => {
       id: 0,
       name: t.NAV.INDEX,
       to: BLOG.path || '/',
-      icon: <HomeIcon className='inline-block mb-1 h-5 w-5' />,
       show: true
     },
     {
       id: 1,
-      name: t.NAV.NEWSLETTER,
-      to: '/newsletter',
-      icon: <NewspaperIcon className='inline-block mb-1 h-5 w-5' />,
-      show: BLOG.pagesShow.newsletter
-    },
-    {
-      id: 2,
-      name: t.NAV.NOTES,
-      to: '/notes',
-      icon: <RectangleStackIcon className='inline-block mb-1 h-5 w-5' />,
-      show: BLOG.pagesShow.notes
-    },
-    {
-      id: 3,
       name: t.NAV.PROJECTS,
       to: '/projects',
-      icon: <SparklesIcon className='inline-block mb-1 h-5 w-5' />,
       show: BLOG.pagesShow.projects
     },
     {
-      id: 4,
-      name: t.NAV.SEARCH,
-      to: '/search',
-      icon: <MagnifyingGlassIcon className='inline-block mb-1 h-5 w-5' />,
+      id: 2,
+      name: t.NAV.WRITING,
+      to: '/writing',
       show: true
+    },
+    {
+      id: 3,
+      name: t.NAV.CONTACT,
+      to: '/contact',
+      show: BLOG.pagesShow.contact
     }
   ]
   return (
@@ -77,11 +58,12 @@ const NavBar = () => {
               <Link passHref href={link.to} key={link.id} scroll={false}>
                 <li
                   className={`${
-                    activeMenu === link.to ? 'bg-gray-200 dark:bg-gray-700' : ''
-                  } hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg block py-1 px-2 nav`}
+                    activeMenu === link.to
+                      ? 'text-ink dark:text-ink-invert'
+                      : 'text-ink-mute dark:text-ink-mute'
+                  } hover:text-ink dark:hover:text-ink-invert cursor-pointer block py-1 px-2 nav transition-colors`}
                 >
-                  <div className='font-light'>
-                    {link.icon}
+                  <div className='font-normal text-[13px]'>
                     <span className='inline-block m-1'>{link.name}</span>
                   </div>
                 </li>
@@ -106,7 +88,7 @@ const NavBar = () => {
           <Bars3Icon className='inline-block mb-1 h-5 w-5' />
         </button>
         {showMenu && (
-          <div className='absolute right-0 w-40 mr-4 mt-2 bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-600 rounded-md shadow-lg outline-none'>
+          <div className='absolute right-0 w-40 mr-4 mt-2 bg-paper-raised dark:bg-paper-dark border border-ink-line dark:border-ink-line divide-y divide-ink-line rounded-md shadow-lg outline-none'>
             <div className='py-1'>
               {links.map(
                 (link) =>
@@ -114,9 +96,8 @@ const NavBar = () => {
                     <Link passHref key={link.id} href={link.to} scroll={false}>
                       <button
                         onClick={() => setShowMenu((showMenu) => !showMenu)}
-                        className='text-left hover:bg-gray-100 dark:hover:bg-gray-600 font-light block justify-between w-full px-4 py-2 leading-5'
+                        className='text-left hover:text-ink dark:hover:text-ink-invert text-ink-soft font-normal block justify-between w-full px-4 py-2 leading-5 text-sm'
                       >
-                        {link.icon}
                         <span className='m-1'>{link.name}</span>
                       </button>
                     </Link>
@@ -175,27 +156,20 @@ const Header = ({ navBarTitle, fullWidth }) => {
         <div className='flex items-center'>
           <Link passHref href='/' scroll={false} aria-label={BLOG.title}>
             <motion.div>
-              <Logo className='h-6 hover:text-blue-500 dark:hover:text-blue-500 fill-current' />
+              <span className='text-[15px] font-medium text-ink dark:text-ink-invert tracking-tight hover:opacity-70 transition-opacity'>
+                {BLOG.author}
+              </span>
             </motion.div>
           </Link>
           {navBarTitle ? (
             <p
-              className={`ml-2 font-medium ${
+              className={`ml-3 text-sm text-ink-mute ${
                 !showTitle ? 'hidden' : 'hidden xl:block'
               }`}
             >
               {navBarTitle}
             </p>
-          ) : (
-            <p
-              className={`ml-2 font-medium ${
-                !showTitle ? 'hidden' : 'hidden xl:block'
-              }`}
-            >
-              {BLOG.title},{' '}
-              <span className='font-normal'>{BLOG.description}</span>
-            </p>
-          )}
+          ) : null}
         </div>
         <NavBar />
       </div>

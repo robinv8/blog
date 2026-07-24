@@ -19,7 +19,7 @@ const Pagination = ({ page, showNext }) => {
         <Link scroll={false}
           href={
             currentPage - 1 === 1
-              ? `${BLOG.path || '/'}`
+              ? `${BLOG.path || '/writing'}`
               : `/page/${currentPage - 1}`
           }
         >

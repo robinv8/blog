@@ -1,49 +1,27 @@
 import Container from '@/components/Container'
-import BlogPost from '@/components/BlogPost'
-import Hero from '@/components/Hero/Home'
-import Pagination from '@/components/Pagination'
-import { getAllPosts, getPostBlocks } from '@/lib/notion'
+import BuilderHome from '@/components/Home/BuilderHome'
+import { getAllPosts } from '@/lib/notion'
 import BLOG from '@/blog.config'
+import { filterPostsByLocale } from '@/lib/locale'
 
-export async function getStaticProps() {
-  const posts = await getAllPosts({ onlyPost: true })
-
-  const heros = await getAllPosts({ onlyHidden: true })
-  const hero = heros?.find((t) => t.slug === 'index')
-
-  let blockMap = null
-  if (hero?.id) {
-    try {
-      blockMap = await getPostBlocks(hero.id)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  const postsToShow = posts.slice(0, BLOG.postsPerPage)
-  const totalPosts = posts.length
-  const showNext = totalPosts > BLOG.postsPerPage
+export async function getStaticProps({ locale }) {
+  const all = await getAllPosts({ onlyPost: true })
+  const posts = filterPostsByLocale(all, locale)
   return {
     props: {
-      page: 1, // current page is 1
-      postsToShow,
-      showNext,
-      blockMap
+      posts: posts.slice(0, 6)
     },
     revalidate: 1
   }
 }
 
-const blog = ({ postsToShow, page, showNext, blockMap }) => {
+const Home = ({ posts }) => {
+  // SEO description stays bilingual in config; page title is identity
   return (
-    <Container title={BLOG.title} description={BLOG.description}>
-      <Hero blockMap={blockMap} />
-      {postsToShow.map((post) => (
-        <BlogPost key={post.id} post={post} />
-      ))}
-      {showNext && <Pagination page={page} showNext={showNext} />}
+    <Container title={BLOG.title} description={BLOG.description} wide>
+      <BuilderHome posts={posts} />
     </Container>
   )
 }
 
-export default blog
+export default Home

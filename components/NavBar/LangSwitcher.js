@@ -1,21 +1,24 @@
-import { LanguageIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 const LangSwitcher = () => {
   const { locale, asPath } = useRouter()
+  const isEn = locale === 'en'
+  const nextLocale = isEn ? 'zh' : 'en'
+  const label = isEn ? '中文' : 'EN'
 
   return (
-    <>
-      <Link passHref href={asPath} locale={locale === 'en' ? 'zh' : 'en'} scroll={false}>
-        <button
-          aria-label='LangSwitcher'
-          className='p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer rounded-lg dark:text-gray-100'
-        >
-          <LanguageIcon className='h-5 w-5' />
-        </button>
-      </Link>
-    </>
+    <Link
+      passHref
+      href={asPath}
+      locale={nextLocale}
+      scroll={false}
+      aria-label={isEn ? 'Switch to Chinese' : 'Switch to English'}
+      title={isEn ? '切换到中文' : 'Switch to English'}
+      className='px-2 py-1.5 text-[12px] font-medium tracking-wide text-ink-mute dark:text-ink-mute hover:text-ink dark:hover:text-ink-invert transition-colors rounded-md'
+    >
+      {label}
+    </Link>
   )
 }
 
