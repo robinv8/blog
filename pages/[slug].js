@@ -3,7 +3,7 @@ import { getAllPosts, getPostBlocks } from '@/lib/notion'
 import { useRouter } from 'next/router'
 import Loading from '@/components/Loading'
 import NotFound from '@/components/NotFound'
-import { resolvePostForLocale } from '@/lib/translations'
+import { resolvePostForLocale, getEnglishTranslation } from '@/lib/translations'
 
 const Post = ({ post, blockMap, translationMarkdown }) => {
   const router = useRouter()
@@ -35,14 +35,14 @@ export async function getStaticProps({ params: { slug }, locale }) {
     const posts = await getAllPosts({ onlyNewsletter: false })
     const resolved = resolvePostForLocale(posts, slug, locale)
 
-    if (!resolved?.post?.id && !resolved?.post?.useFileTranslation) {
+    if (!resolved?.post) {
       return {
         props: { post: null, blockMap: null, translationMarkdown: null },
         revalidate: 60
       }
     }
 
-    // File-based English translation (no Notion EN page)
+    // File-based English (bundled translations)
     if (resolved.source === 'file-en' && resolved.post.translationMarkdown) {
       return {
         props: {
@@ -54,9 +54,28 @@ export async function getStaticProps({ params: { slug }, locale }) {
       }
     }
 
-    // Notion page (zh original or en twin)
     const post = resolved.post
     if (!post?.id) {
+      // Last resort: pure file EN
+      const tr = getEnglishTranslation(slug)
+      if (locale === 'en' && tr) {
+        return {
+          props: {
+            post: {
+              slug,
+              title: tr.title,
+              summary: tr.summary || '',
+              date: Date.now(),
+              type: ['Post'],
+              tags: tr.tags || [],
+              sourceTitle: tr.sourceTitle
+            },
+            blockMap: null,
+            translationMarkdown: tr.markdown
+          },
+          revalidate: 3600
+        }
+      }
       return {
         props: { post: null, blockMap: null, translationMarkdown: null },
         revalidate: 60
@@ -65,32 +84,21 @@ export async function getStaticProps({ params: { slug }, locale }) {
 
     const blockMap = await getPostBlocks(post.id)
     if (!blockMap) {
-      // EN file fallback if Notion blocks fail
-      if (locale === 'en') {
-        const fileResolved = resolvePostForLocale(
-          posts.filter((p) => p.slug === slug),
-          slug,
-          'en'
-        )
-        // force file path
-        const { getEnglishTranslation } = await import('@/lib/translations')
-        const tr = getEnglishTranslation(slug)
-        if (tr) {
-          const zh = posts.find((p) => p.slug === slug)
-          return {
-            props: {
-              post: {
-                ...zh,
-                sourceTitle: zh?.title,
-                title: tr.title,
-                summary: tr.summary || zh?.summary,
-                hasEnglishTranslation: true
-              },
-              blockMap: null,
-              translationMarkdown: tr.markdown
+      // Notion failed: EN file fallback
+      const tr = getEnglishTranslation(slug)
+      if (locale === 'en' && tr) {
+        return {
+          props: {
+            post: {
+              ...post,
+              sourceTitle: post.title,
+              title: tr.title,
+              summary: tr.summary || post.summary
             },
-            revalidate: 300
-          }
+            blockMap: null,
+            translationMarkdown: tr.markdown
+          },
+          revalidate: 300
         }
       }
       return {
@@ -109,6 +117,28 @@ export async function getStaticProps({ params: { slug }, locale }) {
     }
   } catch (err) {
     console.error(err)
+    // EN file fallback on hard errors
+    if (locale === 'en') {
+      const tr = getEnglishTranslation(slug)
+      if (tr) {
+        return {
+          props: {
+            post: {
+              slug,
+              title: tr.title,
+              summary: tr.summary || '',
+              date: Date.now(),
+              type: ['Post'],
+              tags: tr.tags || [],
+              sourceTitle: tr.sourceTitle
+            },
+            blockMap: null,
+            translationMarkdown: tr.markdown
+          },
+          revalidate: 300
+        }
+      }
+    }
     return {
       props: { post: null, blockMap: null, translationMarkdown: null },
       revalidate: 60
