@@ -25,40 +25,11 @@ const Post = ({ post, blockMap }) => {
 }
 
 export async function getStaticPaths() {
-  const mapPageUrl = defaultMapPageUrl(BLOG.notionPageId)
-
-  const pages = await getAllPagesInSpace(
-    BLOG.notionPageId,
-    BLOG.notionSpacesId,
-    getPostBlocks,
-    {
-      traverseCollections: false
-    }
-  )
-
-  const subpageIds = Object.keys(pages)
-    .map((pageId) => '/s' + mapPageUrl(pageId))
-    .filter((path) => path && path !== '/s/')
-
-  // Remove post id
-  const posts = await getAllPosts({ onlyNewsletter: false })
-  const postIds = Object.values(posts)
-    .map((postId) => '/s' + mapPageUrl(postId.id))
-  const noPostsIds = subpageIds.concat(postIds).filter(v => !subpageIds.includes(v) || !postIds.includes(v))
-
-  const heros = await getAllPosts({ onlyHidden: true })
-  const heroIds = Object.values(heros)
-    .map((heroId) => '/s' + mapPageUrl(heroId.id))
-  const paths = noPostsIds.concat(heroIds).filter(v => !noPostsIds.includes(v) || !heroIds.includes(v))
-
+  // Avoid hammering Notion at build time (429). Pages are rendered on demand via ISR.
   return {
-    paths,
+    paths: [],
     fallback: true
   }
-  // return {
-  //   paths: [],
-  //   fallback: true
-  // }
 }
 
 export async function getStaticProps({ params: { subpage } }) {
@@ -67,6 +38,9 @@ export async function getStaticProps({ params: { subpage } }) {
   let blockMap, post
   try {
     blockMap = await getPostBlocks(subpage)
+    if (!blockMap) {
+      return { props: { post: null, blockMap: null }, revalidate: 60 }
+    }
     const id = idToUuid(subpage)
 
     const breadcrumbs = getPageBreadcrumbs(blockMap, id)
@@ -81,7 +55,7 @@ export async function getStaticProps({ params: { subpage } }) {
     // console.log("debug: ", breadcrumbs, post)
   } catch (err) {
     console.error(err)
-    return { props: { post: null, blockMap: null } }
+    return { props: { post: null, blockMap: null }, revalidate: 60 }
   }
 
   // Allow only pages in your own space
@@ -98,7 +72,7 @@ export async function getStaticProps({ params: { subpage } }) {
   }
 
   if (!pageAllowed(blockMap)) {
-    return { props: { post: null, blockMap: null } }
+    return { props: { post: null, blockMap: null }, revalidate: 60 }
   } else {
     return {
       props: { post, blockMap },

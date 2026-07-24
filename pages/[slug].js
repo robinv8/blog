@@ -21,10 +21,15 @@ const Post = ({ post, blockMap }) => {
 }
 
 export async function getStaticPaths() {
-  const posts = await getAllPosts({ onlyNewsletter: false })
-  return {
-    paths: posts.map((row) => `${BLOG.path}/${row.slug}`),
-    fallback: true
+  try {
+    const posts = await getAllPosts({ onlyNewsletter: false })
+    return {
+      paths: (posts || []).map((row) => `${BLOG.path}/${row.slug}`),
+      fallback: true
+    }
+  } catch (err) {
+    console.error('getStaticPaths failed:', err)
+    return { paths: [], fallback: true }
   }
 }
 
@@ -32,8 +37,15 @@ export async function getStaticProps({ params: { slug } }) {
   const posts = await getAllPosts({ onlyNewsletter: false })
   const post = posts.find((t) => t.slug === slug)
 
+  if (!post?.id) {
+    return { props: { post: null, blockMap: null }, revalidate: 60 }
+  }
+
   try {
     const blockMap = await getPostBlocks(post.id)
+    if (!blockMap) {
+      return { props: { post, blockMap: null }, revalidate: 60 }
+    }
     return {
       props: {
         post,
@@ -47,7 +59,8 @@ export async function getStaticProps({ params: { slug } }) {
       props: {
         post: null,
         blockMap: null
-      }
+      },
+      revalidate: 60
     }
   }
 }
