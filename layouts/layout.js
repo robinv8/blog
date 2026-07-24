@@ -11,12 +11,20 @@ import PostFooter from '@/components/Post/PostFooter'
 const Layout = ({ blockMap, frontMatter, fullWidth = false, subPage = false }) => {
   const [showSubPageTitle, setShowSubPageTitle] = useState(false)
 
-  const pageTitle = getPageTitle(blockMap)
+  const pageTitle = blockMap ? getPageTitle(blockMap) : frontMatter?.title
   useEffect(() => {
-    if (frontMatter.title !== pageTitle) {
+    if (blockMap && frontMatter.title !== pageTitle) {
       setShowSubPageTitle(true)
     }
-  }, [frontMatter, pageTitle, subPage])
+  }, [frontMatter, pageTitle, subPage, blockMap])
+
+  if (!blockMap) {
+    return (
+      <Container title={frontMatter?.title || 'Post'} description={frontMatter?.summary} type='article'>
+        <p className='text-neutral-600 dark:text-neutral-400 py-12'>Content is loading…</p>
+      </Container>
+    )
+  }
 
   return (
     <Container

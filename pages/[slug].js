@@ -21,30 +21,27 @@ const Post = ({ post, blockMap }) => {
 }
 
 export async function getStaticPaths() {
-  try {
-    const posts = await getAllPosts({ onlyNewsletter: false })
-    return {
-      paths: (posts || []).map((row) => `${BLOG.path}/${row.slug}`),
-      fallback: true
-    }
-  } catch (err) {
-    console.error('getStaticPaths failed:', err)
-    return { paths: [], fallback: true }
+  // Don't prerender every post at build time — Notion rate-limits hard (429).
+  // Posts are generated on demand via ISR/fallback.
+  return {
+    paths: [],
+    fallback: true
   }
 }
 
 export async function getStaticProps({ params: { slug } }) {
-  const posts = await getAllPosts({ onlyNewsletter: false })
-  const post = posts.find((t) => t.slug === slug)
-
-  if (!post?.id) {
-    return { props: { post: null, blockMap: null }, revalidate: 60 }
-  }
-
   try {
+    const posts = await getAllPosts({ onlyNewsletter: false })
+    const post = posts.find((t) => t.slug === slug)
+
+    if (!post?.id) {
+      return { props: { post: null, blockMap: null }, revalidate: 60 }
+    }
+
     const blockMap = await getPostBlocks(post.id)
     if (!blockMap) {
-      return { props: { post, blockMap: null }, revalidate: 60 }
+      // Layout requires blockMap; fail soft and retry later via ISR.
+      return { props: { post: null, blockMap: null }, revalidate: 60 }
     }
     return {
       props: {
